@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/circle.xml" value="0.24114583333333334" />
+        <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.24114583333333334" />
+        <entry key="app/src/main/res/drawable/img.xml" value="0.24114583333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2109375" />
         <entry key="app/src/main/res/layout/activity_otpactivity.xml" value="0.225" />
         <entry key="app/src/main/res/layout/activity_phone_authentication.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.18" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1265625" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1265625" />
       </map>

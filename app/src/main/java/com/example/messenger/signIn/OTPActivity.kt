@@ -1,13 +1,17 @@
 package com.example.messenger.signIn
 
 import android.app.ProgressDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.messenger.R
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_otpactivity.*
+import kotlinx.android.synthetic.main.activity_phone_authentication.*
 import java.util.concurrent.TimeUnit
 
 class OTPActivity : AppCompatActivity() {
@@ -26,6 +30,11 @@ class OTPActivity : AppCompatActivity() {
         dialog.show()
 
         auth = FirebaseAuth.getInstance()
+
+//        val firebaseAuth = Firebase.auth
+//        val firebaseAuthSettings = firebaseAuth.firebaseAuthSettings
+//        firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(phoneNumber.toString(), otp.toString())
+
 
         val phoneNumber = intent.getStringExtra("phoneNumber")
 
@@ -66,7 +75,9 @@ class OTPActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this,"success",Toast.LENGTH_SHORT).show()
+                    val profile = Intent(this,Profile::class.java)
+                    startActivity(profile)
+                    finish()
                 } else {
                     Toast.makeText(this,"fail",Toast.LENGTH_SHORT).show()
                 }

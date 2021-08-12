@@ -13,17 +13,17 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieAnimationView"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:src="@drawable/avatar"
+        app:civ_border_color="@color/black"
+        app:civ_border_width="2dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline6"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/profile" />
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"
@@ -31,5 +31,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

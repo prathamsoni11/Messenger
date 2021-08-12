@@ -31,11 +31,6 @@ class OTPActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-//        val firebaseAuth = Firebase.auth
-//        val firebaseAuthSettings = firebaseAuth.firebaseAuthSettings
-//        firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(phoneNumber.toString(), otp.toString())
-
-
         val phoneNumber = intent.getStringExtra("phoneNumber")
 
         val options = PhoneAuthOptions.newBuilder(auth)

@@ -18,7 +18,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/avatar"
-        app:civ_border_color="@color/black"
+        app:civ_border_color="#ad2e24"
         app:civ_border_width="2dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,9 +36,44 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
+        android:layout_marginTop="10dp"
+        android:text="* Please select a profile picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/otpText"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter your name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        android:layout_marginTop="10dp"
+        android:textColorHint="#540804"
+        app:hintTextColor="#540804"
+        app:boxStrokeColor="#540804">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#072ac8" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/otpText"
+        app:layout_constraintEnd_toEndOf="@id/otpText"
+        android:text="Done"
+        android:backgroundTint="#7ebdc2"
+        android:textColor="#252323"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/otpText"
+        android:layout_marginTop="10dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Messenger</string>
+    <string name="create_n_your_account_with_n_messenger">Create\n your account with\n Messenger</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="send_otp">SEND OTP</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="otp">OTP</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.messenger.signIn
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -23,11 +24,16 @@ class Profile : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
-    private lateinit var selectedImage: Uri
+    private var selectedImage: Uri? = null
+    private lateinit var dialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
+        dialog = ProgressDialog(this)
+        dialog.setMessage("Completing Profile...")
+        dialog.setCancelable(false)
 
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
@@ -52,29 +58,51 @@ class Profile : AppCompatActivity() {
 
     fun done(view: View) {
         val name = userName.text.toString()
-        if (name.trim().isEmpty()){
-            Toast.makeText(this,"Please enter your name",Toast.LENGTH_SHORT).show()
+        if (name.trim().isEmpty()) {
+            Toast.makeText(this, "Please enter your name", Toast.LENGTH_SHORT).show()
+            return
         }
 
+        userText.isEnabled = true
+        completing.visibility = View.VISIBLE
+        done.isEnabled = false
 
         GlobalScope.launch(Dispatchers.IO) {
+            if (selectedImage != null) {
 
-            val profileDao = ProfileDao()
-            val imageUrl = profileDao.addProfilePicture(selectedImage)
+                val profileDao = ProfileDao()
+                val imageUrl = profileDao.addProfilePicture(selectedImage!!)
 
-            withContext(Dispatchers.Main) {
                 val uid = auth.uid.toString()
                 val userPhone = auth.currentUser!!.phoneNumber.toString()
-                val name = userName.text.toString()
 
                 val user = User(uid, name, userPhone, imageUrl.toString())
 
                 val userDao = UserDao()
                 userDao.addUser(user)
+
+            }else{
+
+                val uid = auth.uid.toString()
+                val userPhone = auth.currentUser!!.phoneNumber.toString()
+
+                val user = User(uid, name, userPhone, "No Image")
+
+                val userDao = UserDao()
+                userDao.addUser(user)
+            }
+
+            val sp = getSharedPreferences("LogIn", MODE_PRIVATE)
+            val ed = sp.edit()
+            ed.putBoolean("LogInStatus",true)
+            ed.apply()
+
+            withContext(Dispatchers.Main){
+                completing.visibility = View.GONE
+                val intent = Intent(this@Profile, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         }
-
-        val intent = Intent(this@Profile,MainActivity::class.java)
-        startActivity(intent)
     }
 }

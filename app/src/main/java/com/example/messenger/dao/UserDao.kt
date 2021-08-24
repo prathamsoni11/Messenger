@@ -5,7 +5,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 class UserDao {
     private val database = FirebaseDatabase.getInstance()
-    private val userCollection = database.reference.child("users")
+    val userCollection = database.reference.child("users")
 
     fun addUser(user: User){
         userCollection.child(user.uid).setValue(user)

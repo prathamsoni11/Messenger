@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="New Group"
+        android:id="@+id/group"/>
+
+    <item
+        android:title="Setting"
+        android:id="@+id/setting"/>
+
+    <item
+        android:title="Search"
+        android:id="@+id/search"
+        app:showAsAction="always"
+        android:icon="@drawable/search"/>
+
+</menu>

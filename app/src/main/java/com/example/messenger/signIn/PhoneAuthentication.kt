@@ -1,16 +1,16 @@
 package com.example.messenger.signIn
 
-import android.app.ProgressDialog
 import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.messenger.MainActivity
 import com.example.messenger.R
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_phone_authentication.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -23,29 +23,37 @@ class PhoneAuthentication : AppCompatActivity() {
 
     private lateinit var storedVerificationId: String
     private lateinit var auth: FirebaseAuth
-    private lateinit var dialog: ProgressDialog
+    private var result: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_phone_authentication)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        setContentView(R.layout.activity_phone_authentication)
+
+        val sp = getSharedPreferences("LogIn", MODE_PRIVATE)
+        result = sp.getBoolean("LogInStatus",false)
 
         auth = FirebaseAuth.getInstance()
-
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (result){
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
     fun submit(view: View) {
         if (phoneText.isEnabled) {
             val str = phoneNumber.text.toString()
             if (str.trim().isNotEmpty() && str.length == 10) {
-                phoneText.isEnabled = false
-                otpText.visibility = View.VISIBLE
-                submit.text = "Verify"
 
-                dialog = ProgressDialog(this)
-                dialog.setMessage("Sending OTP...")
-                dialog.setCancelable(false)
-                dialog.show()
+                phoneText.isEnabled = false
+                loading.visibility = View.VISIBLE
+                submit.isEnabled = false
+
+                submit.text = "Verify"
 
                 val options = PhoneAuthOptions.newBuilder(auth)
                     .setPhoneNumber("+91$str")       // Phone number to verify
@@ -65,7 +73,11 @@ class PhoneAuthentication : AppCompatActivity() {
                             verificationId: String,
                             token: PhoneAuthProvider.ForceResendingToken
                         ) {
-                            dialog.dismiss()
+
+                            loading.visibility = View.GONE
+                            otpText.visibility = View.VISIBLE
+                            submit.isEnabled = true
+
                             storedVerificationId = verificationId
                         }
                     })          // OnVerificationStateChangedCallbacks
@@ -73,12 +85,15 @@ class PhoneAuthentication : AppCompatActivity() {
                 PhoneAuthProvider.verifyPhoneNumber(options)
 
             } else {
+
                 Toast.makeText(this, "Enter a valid number", Toast.LENGTH_SHORT).show()
+
             }
         }else{
-            dialog.setMessage("Verifying OTP...")
-            dialog.setCancelable(false)
-            dialog.show()
+            
+            otpText.isEnabled = false
+            loading.visibility = View.VISIBLE
+            submit.isEnabled = false
 
             val credential = PhoneAuthProvider.getCredential(
                 storedVerificationId,
@@ -92,11 +107,11 @@ class PhoneAuthentication : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO) {
             auth.signInWithCredential(credential).await()
             withContext(Dispatchers.Main){
-                dialog.dismiss()
+                loading.visibility = View.GONE
                 val profile = Intent(this@PhoneAuthentication,Profile::class.java)
                 startActivity(profile)
+                finish()
             }
         }
     }
-
 }
